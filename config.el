@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "Abhigya Maskay"
-      user-mail-address "ave70011@gmail.com")
+(setq user-full-name "John Doe"
+      user-mail-address "john@doe.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -21,8 +21,7 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-;;
-(setq doom-font (font-spec :family "Hasklig" :size 15 :weight 'semi-light))
+
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
@@ -54,12 +53,8 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; Add transparency
-(set-frame-parameter (selected-frame) 'alpha '(95 . 50))
-(add-to-list 'default-frame-alist '(alpha . (95 . 50)))
 
-
-;; Which key delay
+;; which key delay
 (after! which-key
   (setq which-key-idle-delay 0.1))
 
@@ -68,16 +63,26 @@
   (display-time-mode 1)
   (display-battery-mode 1))
 
-;; set escape to fd
-(setq evil-escape-key-sequence "fd")
-
 ;; change undo limits
 (setq undo-limit 80000000
       evil-want-fine-undo t)
 
-;;iterate through camelcase words
+;; iterate through camelcase words
 (global-subword-mode 1)
 
+;; evil escape seq
+(setq evil-escape-key-sequence "fd")
 
-;; add projects to projectile
+
+;; add projects
 (projectile-add-known-project "~/wiseyak/wisemd")
+
+
+;; Change font
+(setq doom-font (font-spec :family "Operator Mono Lig" :size 15))
+
+
+;; italicize comments and keywords
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-keyword-face :slant italic))
