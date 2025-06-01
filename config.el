@@ -6,8 +6,7 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
-(setq user-full-name "Abhigya Maskay"
-      user-mail-address "abhigya.maskay@wiseyak.com")
+(setq user-full-name "Abhigya Maskay")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -15,7 +14,7 @@
 ;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
 ;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
 ;;   presentations or streaming.
-;; - `doom-unicode-font' -- for unicode glyphs
+;; - `doom-symbol-font' -- for symbols
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 ;;
 ;; See 'C-h v doom-font' for documentation and more examples of what they
@@ -32,7 +31,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-moonlight)
+(setq doom-theme 'doom-challenger-deep)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -75,41 +74,67 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; evil escape seq
+;; evil escape sequence
 (setq evil-escape-key-sequence "fd")
-
-;; Change font
-(setq doom-font (font-spec :family "Iosevka Nerd Font" :size 16))
-
-;; which key delay
-(after! which-key
-  (setq which-key-idle-delay 0.1))
 
 ;; Show battery and time
 (after! doom-modeline
   (display-time-mode 1)
   (display-battery-mode 1))
 
-;; Change undo limits
-(setq undo-limit 8000000
-      evil-want-fine-undo t)
+;; Change Font
+(setq doom-font (font-spec :size 15 :family "Monaspace Krypton Frozen"))
 
-;; iterate through camelcase words
-(global-subword-mode 1)
+;; disable angular lsp
+(after! lsp-mode
+  (add-to-list 'lsp-disabled-clients 'angular-ls))
 
-;; italicize comments and keywords
-(custom-set-faces!
-  '(font-lock-comment-face :slant italic)
-  '(font-lock-comment-face :slatn italic))
+;; python formatter
+;;(after! python
+;;  (set-formatter! 'black "black -q -" :modes '(python-mode)))
 
-;; whitespace mode stuff
-(global-whitespace-mode +1)
+;; haskell formatter
+(after! lsp-haskell
+  (setq lsp-haskell-formatting-provider "ormolu"))
+
+;; relative line numbering
+(setq display-line-numbers-type 'relative)
+
+;; org mode lsp enable
+(defun org-babel-edit-prep:haskell (babel-info)
+  (setq-local buffer-file-name (->> babel-info caddr (alist-get :tangle)))
+  (lsp))
+
+;; Gemini api key for editor integration;;
 (setq
-  whitespace-style '(face tabs tab-mark spaces
-                     space-mark trailing lines-tail
-                     newline newline-mark))
+ gptel-model 'gemini-2.5-flash-preview-05-20
+ gptel-backend (gptel-make-gemini "Gemini"
+                 :key (auth-source-pick-first-password :host "generativelanguage.googleapis.com")
+                 :stream t))
 
-(custom-set-faces!
-  '(whitespace-space :background nil :foreground "slate gray")
-  '(whitespace-tab :background nil :foreground "slate gray")
-  '(whitespace-newline :background nil :foreground "slate gray"))
+(map!
+ :leader
+ :desc "Calls the gptel function with configured backend"
+ "c g" #'gptel-send)
+
+(map!
+ :leader
+ :desc "Calls gptel menu"
+ "c m" #'gptel-menu)
+
+(use-package! websocket
+  :after org-roam)
+
+(use-package! org-roam-ui
+  :after org-roam
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
+
+(use-package! org-roam
+  :custom
+  (org-roam-directory "~/org-roam"))
+
+(setq gptel-log-level 'info)
