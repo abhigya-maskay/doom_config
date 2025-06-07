@@ -83,7 +83,7 @@
   (display-battery-mode 1))
 
 ;; Change Font
-(setq doom-font (font-spec :size 15 :family "Monaspace Krypton Frozen"))
+(setq doom-font (font-spec :size 18 :family "Monaspace Krypton Frozen"))
 
 ;; disable angular lsp
 (after! lsp-mode
