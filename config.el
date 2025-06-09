@@ -115,7 +115,7 @@
 (map!
  :leader
  :desc "Calls the gptel function with configured backend"
- "c g" #'gptel-send)
+ "c g" #'gptel)
 
 (map!
  :leader
