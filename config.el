@@ -141,3 +141,4 @@
 
 ;; Cabal file handling
 (add-to-list 'auto-mode-alist '("\\.cabal\\'" . haskell-cabal-mode))
+(add-hook 'haskell-cabal-mode-hook #'lsp)
