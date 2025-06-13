@@ -138,3 +138,6 @@
   (org-roam-directory "~/org-roam"))
 
 (setq gptel-log-level 'info)
+
+;; Cabal file handling
+(add-to-list 'auto-mode-alist '("\\.cabal\\'" . haskell-cabal-mode))
