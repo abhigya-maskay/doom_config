@@ -83,7 +83,15 @@
   (display-battery-mode 1))
 
 ;; Change Font
-(setq doom-font (font-spec :size 18 :family "Monaspace Krypton Frozen"))
+(setq doom-font (font-spec :size 18 :family "Operator Mono Lig"))
+
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-comment-delimiter-face :slant italic)
+  '(font-lock-type-face :slant italic)
+  '(font-lock-doc-face :slant italic)
+  '(font-lock-constant-face :slant italic)
+  '(font-lock-builtin-face :slant italic))
 
 ;; disable angular lsp
 (after! lsp-mode
@@ -142,3 +150,157 @@
 ;; Cabal file handling
 (add-to-list 'auto-mode-alist '("\\.cabal\\'" . haskell-cabal-mode))
 (add-hook 'haskell-cabal-mode-hook #'lsp)
+
+;; Add prettified symbols so they work with all fonts
+(global-prettify-symbols-mode 1)
+
+(defvar my/prettify-symbols-alist
+  '(;; Arrows and flow
+    ("->" . "→")
+    ("<-" . "←")
+    ("=>" . "⇒")
+    ("<=" . "⇐")
+    ("<=>" . "⇔")
+    ("=<<" . "≪")
+    (">>=" . "≫")
+    (">->" . "↣")
+    ("<-<" . "↢")
+    ("->>" . "↠")
+    ("<<-" . "↞")
+
+    ;; Equality and comparison
+    ("==" . "≡")
+    ("!=" . "≠")
+    ("/=" . "≠")
+    (">=" . "≥")
+    ("<=" . "≤")
+    ("===" . "≣")
+    ("!==" . "≢")
+
+    ;; Mathematical operators
+    ("++" . "⧺")
+    ("--" . "⸺")
+    ("**" . "×")
+    ("*/" . "⋆")
+    ("//" . "÷")
+    ("%" . "℅")
+    ("^" . "↑")
+    ("^^" . "⤴")
+
+    ;; Logical operators
+    ("&&" . "∧")
+    ("||" . "∨")
+    ("!" . "¬")
+    ("not" . "¬")
+    ("and" . "∧")
+    ("or" . "∨")
+
+    ;; Functional programming
+    ("<$>" . "⊛")
+    ("<*>" . "⊛")
+    ("<|>" . "⊕")
+    ("<>" . "◇")
+    ("mappend" . "⊕")
+    ("mempty" . "∅")
+    ("." . "·")
+    ("compose" . "∘")
+    ("lambda" . "λ")
+    ("\\" . "λ")
+
+    ;; Type annotations
+    ("::" . "∷")
+    (":" . "∶")
+
+    ;; Ruby-specific
+    ("<=>" . "⇔")
+    ("=~" . "≈")
+    ("!~" . "≉")
+    ("<<" . "≪")
+    (">>" . "≫")
+
+    ;; JavaScript/Python
+    ("===" . "≣")
+    ("!==" . "≢")
+    ("..." . "…")
+
+    ;; Brackets and delimiters
+    ("[]" . "⊡")
+    ("{}" . "⊙")
+    ("()" . "○")
+
+    ;; Special symbols
+    ("null" . "∅")
+    ("nil" . "∅")
+    ("None" . "∅")
+    ("undefined" . "⊥")
+    ("false" . "⊥")
+    ("true" . "⊤")
+    ("True" . "⊤")
+    ("False" . "⊥")
+
+    ;; Infinity and limits
+    ("infinity" . "∞")
+    ("inf" . "∞")
+
+    ;; Set operations
+    ("union" . "∪")
+    ("intersection" . "∩")
+    ("in" . "∈")
+    ("not in" . "∉")
+    ("subset" . "⊂")
+    ("superset" . "⊃")
+
+    ;; Greek letters commonly used in programming
+    ("alpha" . "α")
+    ("beta" . "β")
+    ("gamma" . "γ")
+    ("delta" . "δ")
+    ("epsilon" . "ε")
+    ("theta" . "θ")
+    ("lambda" . "λ")
+    ("mu" . "μ")
+    ("pi" . "π")
+    ("sigma" . "σ")
+    ("tau" . "τ")
+    ("phi" . "φ")
+    ("chi" . "χ")
+    ("psi" . "ψ")
+    ("omega" . "ω")
+
+    ;; Quantifiers
+    ("forall" . "∀")
+    ("exists" . "∃")
+    ("nexists" . "∄")
+
+    ;; Additional arrows
+    ("|->" . "↦")
+    ("<-|" . "↤")
+    ("=>" . "⇒")
+    ("<=" . "⇐")
+    ("<=>" . "⇔")
+    ("~/>" . "↝")
+    ("<~" . "↜")))
+
+(defun my/setup-prettify-symbols ()
+  (setq prettify-symbols-alist my/prettify-symbols-alist))
+
+(add-hook 'haskell-mode-hook #'my/setup-prettify-symbols)
+(add-hook 'python-mode-hook #'my/setup-prettify-symbols)
+(add-hook 'js-mode-hook #'my/setup-prettify-symbols)
+(add-hook 'js2-mode-hook #'my/setup-prettify-symbols)
+(add-hook 'ruby-mode-hook #'my/setup-prettify-symbols)
+(add-hook 'typescript-mode-hook #'my/setup-prettify-symbols)
+(add-hook 'emacs-lisp-mode-hook #'my/setup-prettify-symbols)
+
+(setq prettify-symbols-unprettify-at-point 'right-edge)
+
+;; copilot setup
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)
+              ("C-n" . 'copilot-next-completion)
+              ("C-p" . 'copilot-previous-completion)))
