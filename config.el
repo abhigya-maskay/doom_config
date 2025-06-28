@@ -304,3 +304,14 @@
               ("C-<tab>" . 'copilot-accept-completion-by-word)
               ("C-n" . 'copilot-next-completion)
               ("C-p" . 'copilot-previous-completion)))
+
+;; Add org mode keybinds
+(map!
+   :after org
+   :mode org-mode
+   :localleader
+   "t" #'org-babel-tangle)
+
+(map!
+   :leader
+   "c T" #'org-babel-detangle)
