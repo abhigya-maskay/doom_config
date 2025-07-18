@@ -114,21 +114,7 @@
   (lsp))
 
 ;; Gemini api key for editor integration;;
-(setq
- gptel-model 'gemini-2.5-flash-preview-05-20
- gptel-backend (gptel-make-gemini "Gemini"
-                 :key (auth-source-pick-first-password :host "generativelanguage.googleapis.com")
-                 :stream t))
 
-(map!
- :leader
- :desc "Calls the gptel function with configured backend"
- "c g" #'gptel)
-
-(map!
- :leader
- :desc "Calls gptel menu"
- "c m" #'gptel-menu)
 
 (use-package! websocket
   :after org-roam)
@@ -144,8 +130,6 @@
 (use-package! org-roam
   :custom
   (org-roam-directory "~/org-roam"))
-
-(setq gptel-log-level 'info)
 
 ;; Cabal file handling
 (add-to-list 'auto-mode-alist '("\\.cabal\\'" . haskell-cabal-mode))
@@ -305,6 +289,47 @@
               ("C-n" . 'copilot-next-completion)
               ("C-p" . 'copilot-previous-completion)))
 
+(map!
+ :leader
+ (:prefix-map ("c g" . "copilot")
+              :desc "Copilot related commands"
+              ("o" #'copilot-chat-display
+               :desc "Open copilot chat")
+              ("a" #'copilot-chat-add-current-buffer
+               :desc "Add current buffer to copilot chat")
+              ("d" #'copilot-chat-del-current-buffer
+               :desc "Delete current buffer from copilot chat")
+              ("w" #'copilot-chat-add-workspace
+               :desc "Add current workspace to copilot chat")
+              ("l" #'copilot-chat-list
+               :desc "List copilot chat buffers")
+              ("h" #'copilot-chat-hide
+               :desc "Hide copilot chat buffer")
+              ("r" #'copilot-chat-reset
+               :desc "Reset entire copilot instance")
+              ("s" #'copilot-chat-switch-to-buffer
+               :desc "Switch to copilot chat buffer")
+              ("m" #'copilot-chat-set-model
+               :desc "Switch model for current instance")
+              ("g" #'copilot-chat-insert-commit-message
+               :desc "Insert commit message into current buffer")
+              (:prefix-map ("v" . "copilot work with selected code")
+                           ("h" #'copilot-chat-explain
+                            :desc "Explain selected code with copilot")
+                           ("r" #'copilot-chat-review
+                            :desc "Review selected code with copilot")
+                           ("d" #'copilot-chat-doc
+                            :desc "Document selected code with copilot")
+                           ("f" #'copilot-chat-fix
+                            :desc "Fix selected code with copilot")
+                           ("o" #'copilot-chat-optimize
+                            :desc "Optimize selected code with copilot")
+                           ("t" #'copilot-chat-test
+                            :desc "Test selected code with copilot")
+                           ("b" #'copilot-chat-review-buffer
+                            :desc "Review entire buffer with copilot"))))
+
+
 ;; Add org mode keybinds
 (map!
    :after org
@@ -315,3 +340,6 @@
 (map!
    :leader
    "c T" #'org-babel-detangle)
+
+;; python lsp server
+(setq lsp-pyright-langserver-command "basedpyright")
