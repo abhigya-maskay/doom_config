@@ -343,3 +343,7 @@
 
 ;; python lsp server
 (setq lsp-pyright-langserver-command "basedpyright")
+
+;; haskell lsp server
+(after! lsp-haskell
+  (setq lsp-haskell-server-path "haskell-language-server-wrapper"))
