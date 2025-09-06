@@ -83,15 +83,15 @@
   (display-battery-mode 1))
 
 ;; Change Font
-(setq doom-font (font-spec :size 18 :family "Operator Mono Lig"))
+(setq doom-font (font-spec :size 18 :family "Monaspace Krypton"))
 
 (custom-set-faces!
-  '(font-lock-comment-face :slant italic)
-  '(font-lock-comment-delimiter-face :slant italic)
-  '(font-lock-type-face :slant italic)
-  '(font-lock-doc-face :slant italic)
-  '(font-lock-constant-face :slant italic)
-  '(font-lock-builtin-face :slant italic))
+  '(font-lock-comment-face :slant italic :family "Monaspace Radon")
+  '(font-lock-comment-delimiter-face :slant italic :family "Monaspace Radon")
+  '(font-lock-type-face :slant italic :family "Monaspace Radon")
+  '(font-lock-doc-face :slant italic :family "Monaspace Radon")
+  '(font-lock-constant-face :slant italic :family "Monaspace Radon")
+  '(font-lock-builtin-face :slant italic :family "Monaspace Radon"))
 
 ;; disable angular lsp
 (after! lsp-mode
@@ -139,131 +139,107 @@
 (global-prettify-symbols-mode 1)
 
 (defvar my/prettify-symbols-alist
-  '(;; Arrows and flow
+  '(;; Arrows (Haskell, JS, Ruby)
     ("->" . "→")
     ("<-" . "←")
     ("=>" . "⇒")
-    ("<=" . "⇐")
-    ("<=>" . "⇔")
-    ("=<<" . "≪")
-    (">>=" . "⋟")
-    (">->" . "↣")
-    ("<-<" . "↢")
-    ("->>" . "↠")
-    ("<<-" . "↞")
-
-    ;; Equality and comparison
+    (">>=" . "»=")
+    ("=<<" . "=«")
+    (">>" . "»")
+    ("<<" . "«")
+    
+    ;; Haskell Functors & Applicatives
+    ("<$>" . "⊕")
+    ("<*>" . "⊛")
+    ("<|>" . "⊘")
+    ("<>" . "◇")
+    
+    ;; Equality & Comparison (All languages)
     ("==" . "≡")
     ("!=" . "≠")
-    ("/=" . "≠")
+    ("/=" . "≠")     ; Haskell not equal
     (">=" . "≥")
     ("<=" . "≤")
-    ("===" . "≣")
-    ("!==" . "≢")
-
-    ;; Mathematical operators
-    ("++" . "⧺")
-    ("--" . "⸺")
-    ("**" . "×")
-    ("*/" . "⋆")
-    ("//" . "÷")
-    ("%" . "℅")
-    ("^" . "↑")
-    ("^^" . "⤴")
-
-    ;; Logical operators
+    ("===" . "≣")    ; JS strict equality
+    ("!==" . "≢")    ; JS strict inequality
+    
+    ;; Logic (All languages)
     ("&&" . "∧")
     ("||" . "∨")
-    ("!" . "¬")
-    ("not" . "¬")
-    ("and" . "∧")
-    ("or" . "∨")
-
-    ;; Functional programming
-    ("<$>" . "↤")
-    ("<*>" . "⊛")
-    ("<|>" . "⊕")
-    ("<>" . "◇")
-    ("mappend" . "⊕")
-    ("mempty" . "∅")
-    ("." . "·")
-    ("compose" . "∘")
-    ("lambda" . "λ")
-    ("\\" . "λ")
-
-    ;; Type annotations
+    ("not" . "¬")    ; Python/Ruby
+    
+    ;; List/Array Operations
+    ("++" . "⧺")     ; Haskell concatenation
+    ("..." . "…")    ; JS spread operator
+    
+    ;; Type Annotations (Haskell)
     ("::" . "∷")
-    (":" . "∶")
-
-    ;; Ruby-specific
-    ("<=>" . "⇔")
-    ("=~" . "≈")
-    ("!~" . "≉")
-    ("<<" . "≪")
-    (">>" . "≫")
-
-    ;; JavaScript/Python
-    ("===" . "≣")
-    ("!==" . "≢")
-    ("..." . "…")
-
-    ;; Brackets and delimiters
-    ("[]" . "⊡")
-    ("{}" . "⊙")
-    ("()" . "○")
-
-    ;; Special symbols
-    ("null" . "∅")
-    ("nil" . "∅")
-    ("None" . "∅")
-    ("undefined" . "⊥")
-    ("false" . "⊥")
-    ("true" . "⊤")
-    ("True" . "⊤")
-    ("False" . "⊥")
-
-    ;; Infinity and limits
-    ("infinity" . "∞")
-    ("inf" . "∞")
-
-    ;; Set operations
+    ("forall" . "∀")
+    
+    ;; Lambda (Haskell, Python)
+    ("\\" . "λ")     ; Haskell
+    ("lambda" . "λ") ; Python
+    
+    ;; Ruby Operators
+    ("<=>" . "⇔")    ; Spaceship operator
+    ("=~" . "≈")     ; Pattern match
+    ("!~" . "≉")     ; Pattern no match
+    
+    ;; Null/Undefined/Empty
+    ("null" . "∅")       ; JS
+    ("nil" . "∅")        ; Ruby
+    ("None" . "∅")       ; Python
+    ("undefined" . "⊥")  ; JS/Haskell
+    ("mempty" . "∅")     ; Haskell
+    
+    ;; Boolean Values
+    ("True" . "⊤")   ; Python
+    ("False" . "⊥")  ; Python
+    ("true" . "⊤")   ; JS/Ruby
+    ("false" . "⊥")  ; JS/Ruby
+    
+    ;; Math Operations
+    ("**" . "^")     ; Python/Ruby exponentiation
+    ("//" . "÷")     ; Python floor division
+    ("sum" . "∑")    ; Common in all
+    ("product" . "∏"); Common in all
+    ("sqrt" . "√")   ; Common in all
+    
+    ;; Set Operations (Python/Haskell)
     ("union" . "∪")
     ("intersection" . "∩")
-    ("in" . "∈")
-    ("not in" . "∉")
-    ("subset" . "⊂")
-    ("superset" . "⊃")
-
-    ;; Greek letters commonly used in programming
+    ("in" . "∈")         ; Python membership
+    ("not in" . "∉")     ; Python
+    ("elem" . "∈")       ; Haskell
+    ("notElem" . "∉")    ; Haskell
+    
+    ;; Composition (Haskell)
+    ("." . "∘")
+    
+    ;; Common Mathematical Constants
+    ("infinity" . "∞")
+    ("inf" . "∞")
+    ("pi" . "π")
+    
+    ;; Python Specific
+    ("and" . "∧")
+    ("or" . "∨")
+    
+    ;; JS Arrow Functions (keep simple)
+    ("() =>" . "λ")
+    
+    ;; Greek Letters (commonly used in scientific computing)
     ("alpha" . "α")
     ("beta" . "β")
     ("gamma" . "γ")
     ("delta" . "δ")
     ("epsilon" . "ε")
     ("theta" . "θ")
-    ("lambda" . "λ")
     ("mu" . "μ")
-    ("pi" . "π")
     ("sigma" . "σ")
     ("tau" . "τ")
     ("phi" . "φ")
-    ("chi" . "χ")
-    ("psi" . "ψ")
-    ("omega" . "ω")
-
-    ;; Quantifiers
-    ("forall" . "∀")
-    ("exists" . "∃")
-    ("nexists" . "∄")
-
-    ;; Additional arrows
-    ("|->" . "↦")
-    ("<-|" . "↤")
-    ("=>" . "⇒")
-    ("<=" . "⇐")
-    ("<=>" . "⇔")
-    ("~/>" . "↝")
-    ("<~" . "↜")))
+    ("omega" . "ω")))
 
 (defun my/setup-prettify-symbols ()
   (setq prettify-symbols-alist my/prettify-symbols-alist))
