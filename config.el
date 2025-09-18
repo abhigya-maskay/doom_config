@@ -132,6 +132,7 @@
   (org-roam-directory "~/org-roam"))
 
 ;; eat
+(setq eat-term-name "xterm-256color")
 (use-package! eat
   :commands (eat eat-other-window))
 
