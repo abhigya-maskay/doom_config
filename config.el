@@ -136,6 +136,18 @@
 (use-package! eat
   :commands (eat eat-other-window))
 
+(after! eat
+  (setq eat-kill-buffer-on-exit t)
+  (add-hook 'eat-exec-hook
+            (lambda (_process)
+              (add-hook 'eat-exit-hook
+                        (lambda (proc)
+                          (when-let ((buffer (process-buffer proc)))
+                            (dolist (win (get-buffer-window-list buffer nil t))
+                              (when (window-live-p win)
+                                (quit-window 'kill win)))))
+                        nil t))))
+
 (defun +eat--workspace-name ()
   (if (bound-and-true-p persp-mode)
       (safe-persp-name (get-current-persp))
