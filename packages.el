@@ -10,6 +10,8 @@
 ;; (package! some-package)
 (package! gptel :recipe (:nonrecursive t))
 
+(package! eat)
+
 (unpin! org-roam)
 (package! org-roam-ui)
 
