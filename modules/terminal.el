@@ -7,7 +7,7 @@
   :commands (eat eat-other-window))
 
 (after! eat
-  (setq eat-kill-buffer-on-exit t)
+  (setq eat-kill-buffer-on-exit nil)
   (add-hook 'eat-exec-hook
             (lambda (_process)
               (add-hook 'eat-exit-hook
@@ -15,7 +15,7 @@
                           (when-let ((buffer (process-buffer proc)))
                             (dolist (win (get-buffer-window-list buffer nil t))
                               (when (window-live-p win)
-                                (quit-window 'kill win)))))
+                                (delete-window win)))))
                         nil t))))
 
 ;; Helper functions for eat terminal
