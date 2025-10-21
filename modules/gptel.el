@@ -78,10 +78,6 @@ If the line has content, edits/improves it.
 Uses language context from major-mode."
   (interactive)
   (require 'gptel)
-  (when (buffer-modified-p)
-    (when (y-or-n-p "Buffer has unsaved changes. Save before editing? ")
-      (save-buffer)))
-
   (when buffer-read-only
     (user-error "Buffer is read-only"))
 
@@ -90,10 +86,6 @@ Uses language context from major-mode."
          (line-content (buffer-substring-no-properties line-start line-end))
          (line-is-empty (string-match-p "^[[:space:]]*$" line-content))
          (current-language (gptel--mode-to-language))
-         (indentation (save-excursion
-                        (goto-char line-start)
-                        (skip-chars-forward " \t")
-                        (buffer-substring-no-properties line-start (point))))
          (instruction (string-trim
                        (read-string (if line-is-empty
                                         "Describe what to generate (leave blank for auto): "
@@ -127,14 +119,15 @@ Uses language context from major-mode."
                  (clean-response (replace-regexp-in-string "^```.*\n?" "" clean-response))
                  (clean-response (replace-regexp-in-string "\n?```$" "" clean-response))
                  (clean-response (replace-regexp-in-string "\n" " " clean-response))
-                 (final-line (concat indentation clean-response)))
+                 (final-line clean-response))
 
             (if (string-empty-p clean-response)
                 (message "Warning: Empty response from API")
               (save-excursion
                 (goto-char line-start)
                 (delete-region line-start line-end)
-                (insert final-line))
+                (insert final-line)
+                (indent-according-to-mode))
               (message "Line updated successfully"))))))))
 
 (provide 'modules-gptel)
