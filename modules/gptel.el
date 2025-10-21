@@ -90,7 +90,7 @@ Uses language context from major-mode."
                        (read-string (if line-is-empty
                                         "Describe what to generate (leave blank for auto): "
                                       "Describe the change for this line (leave blank for auto): "))))
-         (system-prompt "You are a code assistant. Return EXACTLY ONE line of code. No explanations, no markdown formatting, no backticks, no line numbers. Just the single line of code.")
+         (system-prompt "You are a code assistant. Perform only the requested change and nothing else. Return EXACTLY ONE line of code. No explanations, no markdown formatting, no backticks, no line numbers. Just the single line of code.")
          (user-prompt (if line-is-empty
                           (if (string-empty-p instruction)
                               (format "Generate one line of %s code." current-language)
