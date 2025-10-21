@@ -75,4 +75,5 @@
 (load! "modules/terminal")     ;; Terminal (eat) configuration
 (load! "modules/org")          ;; Org-mode configuration
 (load! "modules/copilot")      ;; GitHub Copilot configuration
+(load! "modules/gptel")        ;; gptel AI assistant configuration
 (load! "modules/keybindings")  ;; All keybindings

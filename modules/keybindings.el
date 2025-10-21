@@ -51,6 +51,12 @@
                            ("b" #'copilot-chat-review-buffer
                             :desc "Review entire buffer with copilot"))))
 
+;; gptel keybindings
+(map!
+ :leader
+ (:prefix ("c" . "code")
+  :desc "AI edit/generate current line" "l" #'gptel-edit-line))
+
 ;; Org mode keybindings
 (map!
    :after org
