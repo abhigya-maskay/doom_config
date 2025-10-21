@@ -55,7 +55,7 @@
 (map!
  :leader
  (:prefix ("c" . "code")
-  :desc "AI edit/generate current line" "l" #'gptel-edit-line))
+  :desc "AI edit/generate current line" "i" #'gptel-edit-line))
 
 ;; Org mode keybindings
 (map!
